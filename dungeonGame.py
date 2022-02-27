@@ -15,6 +15,7 @@ print(egg2)
 print(egg1)
 print(egg3)
 
+
 #check if anything is in the same positon
 while egg1== egg2 or egg2== egg3 or egg3==egg1 or egg1==basketPos or egg2 == basketPos or egg3 == basketPos or monsterPos == basketPos or playerPos == monsterPos or playerPos == basketPos:
     playerPos = (random.randint(0, 25))
@@ -89,7 +90,7 @@ def drawMap(posP):
              break
 
 gameison= True  
-monsterPos = 27
+
 print(f"you are playing the dungeon Game, your starting position is {CELLS[playerPos]}" )
 eggcounter = 0
 basketcounter =0
