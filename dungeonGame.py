@@ -15,9 +15,11 @@ print(egg2)
 print(egg1)
 print(egg3)
 
-
+checkdup = [playerPos, basketPos, monsterPos, egg1, egg2, egg3]
+# egg1== egg2 or egg2== egg3 or egg3==egg1 or egg1==basketPos or egg2 == basketPos or egg3 == basketPos or monsterPos == basketPos or playerPos == monsterPos or playerPos == basketPos:
+    
 #check if anything is in the same positon
-while egg1== egg2 or egg2== egg3 or egg3==egg1 or egg1==basketPos or egg2 == basketPos or egg3 == basketPos or monsterPos == basketPos or playerPos == monsterPos or playerPos == basketPos:
+while len(checkdup) != len(set(checkdup)):
     playerPos = (random.randint(0, 25))
     basketPos = (random.randint(0, 25))
     monsterPos = (random.randint(0, 25))
@@ -95,6 +97,8 @@ print(f"you are playing the dungeon Game, your starting position is {CELLS[playe
 eggcounter = 0
 basketcounter =0
 doorPos = 0
+
+
 while(gameison):
     drawMap(playerPos)
     print("\n")
@@ -117,7 +121,7 @@ while(gameison):
         else:
             playerPos-=5
     elif move.lower() == "down":
-        if (playerPos+5) >25:
+        if (playerPos+5) > 24:
             print("you hit a lower wall")
         else:
             playerPos+=5
@@ -154,4 +158,3 @@ while(gameison):
     elif playerPos == monsterPos:
         print("you were eaten by the demogorgon!")
         gameison = False
-    
