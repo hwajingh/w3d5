@@ -14,12 +14,12 @@ print(monsterPos)
 print(egg2)
 print(egg1)
 print(egg3)
-monsterPos = 25
+
 #check if anything is in the same positon
 while egg1== egg2 or egg2== egg3 or egg3==egg1 or egg1==basketPos or egg2 == basketPos or egg3 == basketPos or monsterPos == basketPos or playerPos == monsterPos or playerPos == basketPos:
     playerPos = (random.randint(0, 25))
     basketPos = (random.randint(0, 25))
-    # monsterPos = (random.randint(0, 25))
+    monsterPos = (random.randint(0, 25))
     egg1 = (random.randint(0, 25))
     egg2 = (random.randint(0, 25))
     egg3 = (random.randint(0, 25))
@@ -89,34 +89,35 @@ def drawMap(posP):
              break
 
 gameison= True  
-
+monsterPos = 27
 print(f"you are playing the dungeon Game, your starting position is {CELLS[playerPos]}" )
 eggcounter = 0
 basketcounter =0
 doorPos = 0
 while(gameison):
     drawMap(playerPos)
-
+    print("\n")
+    print(f"so far you have found {eggcounter} eggs and {basketcounter} basket, door is at position 0,0")
     print("\n")
     move = input("left/right/up/down: \n")
     if move.lower() == "left":
-        if playerPos % 5 ==0: #it is at left wall 
-            print("you hit a wall reselect a move")
+        if playerPos % 5 ==0 or playerPos == 0: #it is at left wall 
+            print("you hit the left wall reselect a move")
         else:
             playerPos -=1 
     elif move.lower() == "right":
         if playerPos != 4 and playerPos != 9 and playerPos != 14 and playerPos != 19 and playerPos != 24:
             playerPos +=1 
         else:
-            print("you hit the wall")
+            print("you hit the right wall")
     elif move.lower() == "up":
         if playerPos < 5:
-            print("you hit a wall")
+            print("you hit a upper wall")
         else:
             playerPos-=5
     elif move.lower() == "down":
         if (playerPos+5) >25:
-            print("you hit a wall")
+            print("you hit a lower wall")
         else:
             playerPos+=5
     else:
@@ -126,22 +127,24 @@ while(gameison):
         if playerPos == basketPos:
             basketcounter+=1
             print("you found a basket, now collect your eggs")
+    eggsac = [egg1, egg2, egg3]
     
-    if eggcounter != 3:
-        if playerPos == egg1:
-            print("you found egg 1")
-            eggcounter+=1
-        elif playerPos == egg2:
-            print("you found egg2")
-            eggcounter+=1
-        elif playerPos == egg3:
-            print("you found egg3")
-            eggcounter +=1
+    if eggcounter != 3: #if no basket no egg
+        if basketcounter != 1 and playerPos in eggsac :
+            print("you dont have a basket but here is an egg")
         else:
-            continue
+            if playerPos == egg1:
+                    print("you found egg 1")
+                    eggcounter+=1
+            elif playerPos == egg2:
+                    print("you found egg 2")
+                    eggcounter+=1
+            elif playerPos == egg3:
+                    print("you found egg 3")
+                    eggcounter+=1
+            else:
+                continue
     
-    print("\n")
-    print(f"so far you have found {eggcounter} eggs and {basketcounter} basket, door is at position 0,0")
     
     #ending the game
     if basketcounter ==1 and eggcounter==3 and playerPos == doorPos:
@@ -150,6 +153,4 @@ while(gameison):
     elif playerPos == monsterPos:
         print("you were eaten by the demogorgon!")
         gameison = False
-    
-        
     
