@@ -65,7 +65,8 @@ class Token ( ):
         print ('Your mission is to collect the basket, the eggs it has laid around your school, and then to run out the door')
         print ('Be careful the Demogorgon does not get you or you\'ll be dragged into the Upside-Down')
 
-    def drawMap(self,):
+    def drawMap(self,CELLS):
+        #for cell in self.CELLS:
         ind = 0
         while ind <= 25:
             if ind < 5:
@@ -118,12 +119,19 @@ class Token ( ):
                 print("you hit a wall, reselect a move")
             else:
                 self.playerPos -=1 
-                self.monsterPos +=1
-                print(self.playerPos)
-                print (self.monsterPos)
+                self.monsterPos = (random.randint(0, 24))
+                if self.playerPos == self.monsterPos:
+                    print ('You Got Caught by the Demigorgon')
+                else:
+                    print (self.playerPos)
         elif move.lower() == "right":
             if self.playerPos != 4 and self.playerPos != 9 and self.playerPos != 14 and self.playerPos != 19 and self.playerPos != 24:
                 self.playerPos +=1 
+                self.monsterPos = (random.randint(0, 24))
+                if self.playerPos == self.monsterPos:
+                    print ('You Got Caught by the Demigorgon')
+                else:
+                    print (self.playerPos)
             else:
                 print("you hit the wall, reselect a move")
         elif move.lower() == "up":
@@ -131,7 +139,11 @@ class Token ( ):
                 print("you hit a wall, reselect a move")
             else:
                 self.playerPos-=5
-                self.monsterPos -=1
+                self.monsterPos = (random.randint(0, 24))
+                if self.playerPos == self.monsterPos:
+                    print ('You Got Caught by the Demigorgon')
+                else:
+                    print (self.playerPos)
                 print(self.playerPos)
                 print (self.monsterPos)
         elif move.lower() == "down":
@@ -139,19 +151,21 @@ class Token ( ):
                 print("you hit a wall, reselect a move")
             else:
                 self.playerPos+=5
-                self.monsterPos -=5
-                print(self.playerPos)
-                print (self.monsterPos)
+                self.monsterPos = (random.randint(0, 24))
+                if self.playerPos == self.monsterPos:
+                    print ('You Got Caught by the Demigorgon')
+                else:
+                    print (self.playerPos)                
         elif move.lower() == "quit":
-            #gameison = False
-            print('trying to quit')
-        else:
+            print ('trying to quit')
+        elif move.lower() != "left" or move.lower() != "right" or move.lower() != "up" or move.lower() != "down" or move.lower() != "quit":
             print ('please enter a valid choice')
         return self.playerPos and self.monsterPos
 
 
     def eggs_on_board(self):
         self.eggset = {self.egg1,self.egg2,self.egg3}
+        print(f' egg pos:{self.egg1} {self.egg2} {self.egg3}monster pos: {self.monsterPos}, playerPos : {self.playerPos}')
         self.movement()
         if self.playerPos == self.egg1:
             if self.egg1 in self.eggset:
@@ -183,6 +197,7 @@ class Token ( ):
 
     def basket_on_board(self):
         self.movement()
+        print(f' basket pos:{self.basketPos} monster pos: {self.monsterPos}, playerPos : {self.playerPos}')
         if self.playerPos == self.basketPos:
             self.basketcounter +=1
             print ("You've found your basket, now collect your eggs")
@@ -208,30 +223,24 @@ gameboard()
 play_game = Token(CELLS)
 play_game.randomize()   
 play_game.instructions()
-play_game.drawMap(CELLS)
+#play_game.drawMap(CELLS)
 
 while play_game.basketcounter == 0:
     play_game.basket_on_board()
-print ('now look for the eggs')
+else:
+    print ('now look for the eggs')
 
 
 while play_game.eggcounter !=3:
     play_game.eggs_on_board()
-print ('all eggs found')
-
-
-print('Great! You\'ve found all the eggs for your basket!. Now RUN to the door before Demogorgen gets you')
-while play_game.playerPos !=play_game.doorPos:
-    if play_game.monsterPos == play_game.playerPos:
-        print('game over')
-        break
-    else:
-        play_game.door_search()
+else:
+    print ('all eggs found')
 
 
 while play_game.doorfound != 1:
     play_game.door_search()
-    break
+else:
+    print ('game over')
     
 #     #ending the game
 # if play_game.basketcounter ==1 and play_game.eggcounter==3 and play_game.playerPos == play_game.doorPos:
