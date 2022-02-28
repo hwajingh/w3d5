@@ -1,27 +1,24 @@
 import random
-class Game:
-    CELLS = [
-    (0,0),(1,0),(2,0),(3,0),(4,0),
-    (0,1),(1,1),(2,1),(3,1),(4,1),
-    (0,2),(1,2),(2,2),(3,2),(4,2),
-    (0,3),(1,3),(2,3),(3,3),(4,3),
-    (0,4),(1,4),(2,4),(3,4),(4,4),
-    ]
+CELLS = [
+(0,0),(1,0),(2,0),(3,0),(4,0),
+(0,1),(1,1),(2,1),(3,1),(4,1),
+(0,2),(1,2),(2,2),(3,2),(4,2),
+(0,3),(1,3),(2,3),(3,3),(4,3),
+(0,4),(1,4),(2,4),(3,4),(4,4),
+]
 
-    def __init__(self,CELLS, posP):
-        self.CELLS = CELLS 
-        self.posP = posP
+class Game:
+
+    def __init__(self):
+        pass
 
     #subbing in whatever display method for CELLS[x] in print statement will work i.e. "  []  "
-    def drawMap(self):
+    def drawMap(self,CELLS):
         ind = 0
         while ind <= 25:
             if ind < 5:
                 for x in range(0,5):
-                    if self.posP == x:
-                        print("  P   ", end="")
-                    else:
-                        print('[   ]', end="")
+                    print('[   ]', end="")
                     ind+=1
             elif ind < 10:
                 print("\n")
@@ -60,26 +57,30 @@ class Game:
                 
 
 class Token (Game):
-    def __init__(self, playerPos, basketPos, monsterPos, egg1, egg2, egg3):
+    def __init__(self, playerPos, basketPos, monsterPos, ):
         self.playerPos = playerPos
         self.basketPos = basketPos
         self.monsterPos = monsterPos
-        self.egg1 = egg1
-        self.egg2 = egg2
-        self.egg3 = egg3
+        
+    def counters(self,eggcounter,basketcounter,doorPos):
         self.eggcounter = 0
         self.basketcounter = 0
         self.doorPos = 0
 
-    def randomize(self):
-        self.playerPos = (random.randint(0, 25))
-        self.basketPos = (random.randint(0, 25))
-        self.monsterPos = (random.randint(0, 25))
+class Egg (Token):
+    def __init__(self,egg1,egg2,egg3):
+        self.egg1 = egg1
+        self.egg2 = egg2
+        self.egg3 = egg3
+
+    def randomize(self,egg1,egg2,egg3):
+        # self.playerPos = (random.randint(0, 25))
+        # self.basketPos = (random.randint(0, 25))
+        # self.monsterPos = (random.randint(0, 25))
         self.egg1 = (random.randint(0, 25))
         self.egg2 = (random.randint(0, 25))
         self.egg3 = (random.randint(0, 25))
 
-    
         
 
 #print(f'player: {self.playerPos} out of loop')
@@ -100,9 +101,7 @@ class Token (Game):
     
 #print(f"you are playing the dungeon Game, your starting position is {CELLS[playerPos]}" )
 #print (' Be careful of the Demogorgon - get too close and he can find you !')
-#eggcounter = 0
-#basketcounter =0
-#doorPos = 0
+
 
 
 
@@ -112,12 +111,16 @@ class Token (Game):
 
 #create function to print instructions
 #create function to do count - basket, eggs, invisible from monster count    
-    
-
-play_game = Token(1,15,2,3,4,5)
-play_game.drawMap()
-while play_game.basket_counter == 1 and play_game.eggcounter > 0:
-    game_is_on = True
+# gameison = True
+# while gameison:
+initiate_game = Game()
+initiate_game.drawMap(CELLS)
+playerPos = (random.randint(0, 25))
+basketPos = (random.randint(0, 25))
+monsterPos = (random.randint(0, 25))
+play_game = Token(playerPos, basketPos,monsterPos)
+play_game.counters(0,0,0)
+while play_game.basketcounter == 0 and play_game.eggcounter > 0:
     print("\n")
     move = input("Do you want to move left/right/up/down or quit: \n")
 
@@ -145,11 +148,12 @@ while play_game.basket_counter == 1 and play_game.eggcounter > 0:
         break
     else:
         print ('please enter a valid choice')
-  
-    if play_game.basketcounter == 0:
+
+    while play_game.basketcounter == 0:
         if play_game.playerPos == play_game.basketPos:
             play_game.basketcounter+=1
             print("you found a basket, now collect your eggs")
+        break
     
     if play_game.eggcounter != 3:
         if play_game.playerPos == play_game.egg1:
@@ -184,13 +188,14 @@ while play_game.basket_counter == 1 and play_game.eggcounter > 0:
 
     
     #ending the game
-    if play_game.basketcounter ==1 and play_game.eggcounter==3 and play_game.playerPos == play_game.doorPos:
-        print("You've successfully evaded the Demogorgon")
-        gameison = False
-    elif play_game.playerPos == play_game.monsterPos:
-        print("you were eaten by the demogorgon!")
-        gameison = False
+if play_game.basketcounter ==1 and play_game.eggcounter==3 and play_game.playerPos == play_game.doorPos:
+    print("You've successfully escaped the Demogorgon")
+    gameison = False
+elif play_game.playerPos == play_game.monsterPos:
+    print("You were captured by the Demogorgon!")
+    gameison = False
     
-            # ask for directions to move
+    # ask for directions to move
+
 else: 
     'find the door'
