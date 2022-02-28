@@ -1,48 +1,50 @@
 import random
 
-CELLS = [
-(0,0),(1,0),(2,0),(3,0),(4,0),
-(0,1),(1,1),(2,1),(3,1),(4,1),
-(0,2),(1,2),(2,2),(3,2),(4,2),
-(0,3),(1,3),(2,3),(3,3),(4,3),
-(0,4),(1,4),(2,4),(3,4),(4,4),
-]
 
-def gameboard():
-        ind = 0
-        while ind <= 25:
-            if ind < 5:
-                for x in range(0,5):
-                    print('[   ]', end="")
-                    ind+=1
-            elif ind < 10:
-                print("\n")
-                for x in range(5,10):
-                    print('[   ]', end="")
-                    ind+=1
-            elif ind < 15:
-                print("\n")
-                for x in range(10,15):
-                    print('[   ]', end="")                
-                    ind+=1
-            elif ind < 20:
-                print("\n")
-                for x in range(15,20):
-                    print('[   ]', end="")
-                    ind+=1
-            elif ind < 25:
-                print("\n")
-                for x in range(20,25):
-                    print('[   ]', end="")
-                    ind+=1
-            else:
-                break
+
+# #def gameboard():
+#         ind = 0
+#         while ind <= 25:
+#             if ind < 5:
+#                 for x in range(0,5):
+#                     print('[   ]', end="")
+#                     ind+=1
+#             elif ind < 10:
+#                 print("\n")
+#                 for x in range(5,10):
+#                     print('[   ]', end="")
+#                     ind+=1
+#             elif ind < 15:
+#                 print("\n")
+#                 for x in range(10,15):
+#                     print('[   ]', end="")                
+#                     ind+=1
+#             elif ind < 20:
+#                 print("\n")
+#                 for x in range(15,20):
+#                     print('[   ]', end="")
+#                     ind+=1
+#             elif ind < 25:
+#                 print("\n")
+#                 for x in range(20,25):
+#                     print('[   ]', end="")
+#                     ind+=1
+#             else:
+#                 break
     
 #subbing in whatever display method for CELLS[x] in print statement will work i.e. "  []  "
 class Token ( ):
     #gameboard
+    CELLS = [
+    (0,0),(1,0),(2,0),(3,0),(4,0),
+    (0,1),(1,1),(2,1),(3,1),(4,1),
+    (0,2),(1,2),(2,2),(3,2),(4,2),
+    (0,3),(1,3),(2,3),(3,3),(4,3),
+    (0,4),(1,4),(2,4),(3,4),(4,4),
+    ]
 
-    def __init__(self,playerPos, basketPos=5, monsterPos=3, eggcounter = 0, doorfound=0, basketcounter = 0, doorPos = 0):
+    def __init__(self, playerPos, basketPos=5, monsterPos=3, eggcounter = 0, doorfound=0, basketcounter = 0, doorPos = 0):
+        #self.CELLS = CELLS
         self.playerPos = playerPos
         self.basketPos = basketPos
         self.monsterPos = monsterPos
@@ -64,17 +66,19 @@ class Token ( ):
         print('The Demogorgen has escaped the UpsideDown and is currently loose in Hawkins Middle School')
         print ('Your mission is to collect the basket, the eggs it has laid around your school, and then to run out the door')
         print ('Be careful the Demogorgon does not get you or you\'ll be dragged into the Upside-Down')
+        print('\n')
+        print('\n')
 
-    def drawMap(self,CELLS):
+    def drawMap(self):
         #for cell in self.CELLS:
         ind = 0
         while ind <= 25:
             if ind < 5:
                 for x in range(0,5):
                     if self.playerPos == x:
-                        print("  P   ", end="")
+                        print(" P ", end="")
                     else:
-                        print(self.CELLS[x], end="")
+                        print('[   ]', end="")
                     ind+=1
             elif ind < 10:
                 print("\n")
@@ -82,7 +86,7 @@ class Token ( ):
                     if self.playerPos == x:
                         print("  P   ", end="")
                     else:
-                        print(self.CELLS[x], end="")
+                        print('[   ]', end="")
                     ind+=1
             elif ind < 15:
                 print("\n")
@@ -90,7 +94,7 @@ class Token ( ):
                     if self.playerPos == x:
                         print("  P   ", end="")
                     else:
-                        print(self.CELLS[x], end="")                
+                        print('[   ]', end="")                
                     ind+=1
             elif ind < 20:
                 print("\n")
@@ -98,7 +102,7 @@ class Token ( ):
                     if self.playerPos == x:
                         print("  P   ", end="")
                     else:
-                        print(self.CELLS[x], end="")
+                        print('[   ]', end="")
                     ind+=1
             elif ind < 25:
                 print("\n")
@@ -106,67 +110,67 @@ class Token ( ):
                     if self.playerPos == x:
                         print("  P   ", end="")
                     else:
-                        print(self.CELLS[x], end="")
+                        print('[   ]', end="")
                     ind+=1
             else:
                 break
-            return gameboard
 
     def movement(self):
-        move = input("Do you want to move left/right/up/down or quit: \n")
-        if move.lower() == "left":
-            if self.playerPos % 5 ==0: #it is at left wall 
-                print("you hit a wall, reselect a move")
-            else:
-                self.playerPos -=1 
-                self.monsterPos = (random.randint(0, 24))
-                if self.playerPos == self.monsterPos:
-                    print ('You Got Caught by the Demigorgon')
+        while True:
+            move = input("Do you want to move left/right/up/down or quit: \n")
+            if move.lower() == "left":
+                if self.playerPos % 5 ==0: #it is at left wall 
+                    print("you hit a wall, reselect a move")
                 else:
-                    print (self.playerPos)
-        elif move.lower() == "right":
-            if self.playerPos != 4 and self.playerPos != 9 and self.playerPos != 14 and self.playerPos != 19 and self.playerPos != 24:
-                self.playerPos +=1 
-                self.monsterPos = (random.randint(0, 24))
-                if self.playerPos == self.monsterPos:
-                    print ('You Got Caught by the Demigorgon')
+                    self.playerPos -=1 
+                    self.monsterPos = (random.randint(0, 24))
+                    if self.playerPos == self.monsterPos:
+                        print ('You Got Caught by the Demigorgon')
+                    else:
+                        print (self.playerPos)
+            elif move.lower() == "right":
+                if self.playerPos != 4 and self.playerPos != 9 and self.playerPos != 14 and self.playerPos != 19 and self.playerPos != 24:
+                    self.playerPos +=1 
+                    self.monsterPos = (random.randint(0, 24))
+                    if self.playerPos == self.monsterPos:
+                        print ('You Got Caught by the Demigorgon')
+                        break
+                    else:
+                        print (self.playerPos)
                 else:
-                    print (self.playerPos)
-            else:
-                print("you hit the wall, reselect a move")
-        elif move.lower() == "up":
-            if self.playerPos < 5:
-                print("you hit a wall, reselect a move")
-            else:
-                self.playerPos-=5
-                self.monsterPos = (random.randint(0, 24))
-                if self.playerPos == self.monsterPos:
-                    print ('You Got Caught by the Demigorgon')
+                    print("you hit the wall, reselect a move")
+            elif move.lower() == "up":
+                if self.playerPos < 5:
+                    print("you hit a wall, reselect a move")
                 else:
-                    print (self.playerPos)
-                print(self.playerPos)
-                print (self.monsterPos)
-        elif move.lower() == "down":
-            if (self.playerPos+5) >24:
-                print("you hit a wall, reselect a move")
-            else:
-                self.playerPos+=5
-                self.monsterPos = (random.randint(0, 24))
-                if self.playerPos == self.monsterPos:
-                    print ('You Got Caught by the Demigorgon')
+                    self.playerPos-=5
+                    self.monsterPos = (random.randint(0, 24))
+                    if self.playerPos == self.monsterPos:
+                        print ('You Got Caught by the Demigorgon')
+                    else:
+                        print(self.playerPos)
+            elif move.lower() == "down":
+                if (self.playerPos+5) >24:
+                    print("you hit a wall, reselect a move")
                 else:
-                    print (self.playerPos)                
-        elif move.lower() == "quit":
-            print ('trying to quit')
-        elif move.lower() != "left" or move.lower() != "right" or move.lower() != "up" or move.lower() != "down" or move.lower() != "quit":
-            print ('please enter a valid choice')
+                    self.playerPos+=5
+                    self.monsterPos = (random.randint(0, 24))
+                    if self.playerPos == self.monsterPos:
+                        print ('You Got Caught by the Demigorgon')
+                    else:
+                        print (self.playerPos)                
+            elif move.lower() == "quit":
+                print ('quit')
+                break
+            elif move.lower() != "left" or move.lower() != "right" or move.lower() != "up" or move.lower() != "down" or move.lower() != "quit":
+                print ('please enter a valid choice')
+        
         return self.playerPos and self.monsterPos
 
 
     def eggs_on_board(self):
         self.eggset = {self.egg1,self.egg2,self.egg3}
         print(f' egg pos:{self.egg1} {self.egg2} {self.egg3}monster pos: {self.monsterPos}, playerPos : {self.playerPos}')
-        self.movement()
         if self.playerPos == self.egg1:
             if self.egg1 in self.eggset:
                 print("you found egg 1")
@@ -196,7 +200,6 @@ class Token ( ):
             print ('keep looking')
 
     def basket_on_board(self):
-        self.movement()
         print(f' basket pos:{self.basketPos} monster pos: {self.monsterPos}, playerPos : {self.playerPos}')
         if self.playerPos == self.basketPos:
             self.basketcounter +=1
@@ -205,7 +208,6 @@ class Token ( ):
             print ('Keep looking for your basket!')
 
     def door_search(self):
-        self.movement()
         if play_game.playerPos == play_game.doorPos:
             print ('You escaped the Demogorgen! Go celebrate with some waffles for Eleven')
             self.doorfound +=1
@@ -218,26 +220,29 @@ class Token ( ):
 
 
 
-gameboard()
 
-play_game = Token(CELLS)
+play_game = Token(0)
 play_game.randomize()   
 play_game.instructions()
-#play_game.drawMap(CELLS)
+play_game.drawMap()
 
+print('\n')
 while play_game.basketcounter == 0:
+    play_game.movement()
     play_game.basket_on_board()
 else:
     print ('now look for the eggs')
 
-
+print('\n')
 while play_game.eggcounter !=3:
+    play_game.movement()
     play_game.eggs_on_board()
 else:
     print ('all eggs found')
 
-
+print('\n')
 while play_game.doorfound != 1:
+    play_game.movement()
     play_game.door_search()
 else:
     print ('game over')
