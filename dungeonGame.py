@@ -1,12 +1,11 @@
 import random
 
 
-playerPos = (random.randint(0, 25))
-basketPos = (random.randint(0, 25))
-monsterPos = (random.randint(0, 25))
-egg1 = (random.randint(0, 25))
-egg2 = (random.randint(0, 25))
-egg3 = (random.randint(0, 25))
+# FIX: random.sample() gives six distinct positions in range(25) in one
+# step. The original drew randint(0, 25) — 26 values for 25 cells, so a
+# position of 25 would index past CELLS — and on any duplicate it re-rolled
+# ALL six positions instead of just the colliding one.
+playerPos, basketPos, monsterPos, egg1, egg2, egg3 = random.sample(range(25), 6)
 
 print(playerPos)
 print(basketPos)
@@ -14,26 +13,6 @@ print(monsterPos)
 print(egg2)
 print(egg1)
 print(egg3)
-
-checkdup = [playerPos, basketPos, monsterPos, egg1, egg2, egg3]
-# egg1== egg2 or egg2== egg3 or egg3==egg1 or egg1==basketPos or egg2 == basketPos or egg3 == basketPos or monsterPos == basketPos or playerPos == monsterPos or playerPos == basketPos:
-    
-#check if anything is in the same positon
-while len(checkdup) != len(set(checkdup)):
-    playerPos = (random.randint(0, 25))
-    basketPos = (random.randint(0, 25))
-    monsterPos = (random.randint(0, 25))
-    egg1 = (random.randint(0, 25))
-    egg2 = (random.randint(0, 25))
-    egg3 = (random.randint(0, 25))
-    
-    
-    print(playerPos)
-    print(basketPos)
-    print(monsterPos)
-    print(egg2)
-    print(egg1)
-    print(egg3)
 
 
 CELLS = [
@@ -47,49 +26,14 @@ CELLS = [
 
 
 def drawMap(posP):
-    ind = 0
-    while ind <= 25:
-        if ind < 5:
-            for x in range(0,5):
-                if posP == x:
-                    print("  P   ", end="")
-                else:
-                    print(CELLS[x], end="")
-                ind+=1
-        elif ind < 10:
-            print("\n")
-            for x in range(5,10):
-                if posP == x:
-                    print("  P   ", end="")
-                else:
-                    print(CELLS[x], end="")
-                ind+=1
-        elif ind < 15:
-            print("\n")
-            for x in range(10,15):
-                if posP == x:
-                    print("  P   ", end="")
-                else:
-                    print(CELLS[x], end="")                
-                ind+=1
-        elif ind < 20:
-            print("\n")
-            for x in range(15,20):
-                if posP == x:
-                    print("  P   ", end="")
-                else:
-                    print(CELLS[x], end="")
-                ind+=1
-        elif ind < 25:
-            print("\n")
-            for x in range(20,25):
-                if posP == x:
-                    print("  P   ", end="")
-                else:
-                    print(CELLS[x], end="")
-                ind+=1
-        else:
-             break
+    # FIX: one loop over 5 rows, instead of five copy-pasted row blocks.
+    for row in range(5):
+        for x in range(row * 5, row * 5 + 5):
+            if posP == x:
+                print("  P   ", end="")
+            else:
+                print(CELLS[x], end="")
+        print()
 
 gameison= True  
 
@@ -111,7 +55,7 @@ while(gameison):
         else:
             playerPos -=1 
     elif move.lower() == "right":
-        if playerPos != 4 and playerPos != 9 and playerPos != 14 and playerPos != 19 and playerPos != 24:
+        if playerPos % 5 != 4:  # FIX: right wall is every 5th cell, not an enumerated list
             playerPos +=1 
         else:
             print("you hit the right wall")
