@@ -65,7 +65,10 @@ class Token ( ):
         print ('Your mission is to collect the basket, the eggs it has laid around your school, and then to run out the door')
         print ('Be careful the Demogorgon does not get you or you\'ll be dragged into the Upside-Down')
 
-    def drawMap(self,):
+    def drawMap(self, _unused=None):
+        # FIX: drawMap used self.CELLS, but CELLS is a module-level global,
+        # not an attribute — that raised AttributeError. The optional
+        # argument also lets the existing drawMap(CELLS) call site work.
         ind = 0
         while ind <= 25:
             if ind < 5:
@@ -73,7 +76,7 @@ class Token ( ):
                     if self.playerPos == x:
                         print("  P   ", end="")
                     else:
-                        print(self.CELLS[x], end="")
+                        print(CELLS[x], end="")
                     ind+=1
             elif ind < 10:
                 print("\n")
@@ -81,7 +84,7 @@ class Token ( ):
                     if self.playerPos == x:
                         print("  P   ", end="")
                     else:
-                        print(self.CELLS[x], end="")
+                        print(CELLS[x], end="")
                     ind+=1
             elif ind < 15:
                 print("\n")
@@ -89,7 +92,7 @@ class Token ( ):
                     if self.playerPos == x:
                         print("  P   ", end="")
                     else:
-                        print(self.CELLS[x], end="")                
+                        print(CELLS[x], end="")                
                     ind+=1
             elif ind < 20:
                 print("\n")
@@ -97,7 +100,7 @@ class Token ( ):
                     if self.playerPos == x:
                         print("  P   ", end="")
                     else:
-                        print(self.CELLS[x], end="")
+                        print(CELLS[x], end="")
                     ind+=1
             elif ind < 25:
                 print("\n")
@@ -105,7 +108,7 @@ class Token ( ):
                     if self.playerPos == x:
                         print("  P   ", end="")
                     else:
-                        print(self.CELLS[x], end="")
+                        print(CELLS[x], end="")
                     ind+=1
             else:
                 break
@@ -122,7 +125,7 @@ class Token ( ):
                 print(self.playerPos)
                 print (self.monsterPos)
         elif move.lower() == "right":
-            if self.playerPos != 4 and self.playerPos != 9 and self.playerPos != 14 and self.playerPos != 19 and self.playerPos != 24:
+            if self.playerPos % 5 != 4:  # right wall is every 5th cell
                 self.playerPos +=1 
             else:
                 print("you hit the wall, reselect a move")
